@@ -1,20 +1,32 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { AppLoading } from 'expo';
+import { Container, Text } from 'native-base';
+import * as Font from 'expo-font';
+import { Ionicons } from '@expo/vector-icons';
 
-export default function App(): JSX.Element {
-    return (
-        <View style={styles.container}>
-            <Text>Open up App.tsx to start working on your app!</Text>
-        </View>
-    );
+export default class App extends React.Component {
+    state = {
+        isReady: false,
+    };
+
+    async componentDidMount(): Promise<void> {
+        await Font.loadAsync({
+            Roboto: require('native-base/Fonts/Roboto.ttf'),
+            Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'), // eslint-disable-line @typescript-eslint/camelcase
+            ...Ionicons.font,
+        });
+        this.setState({ isReady: true });
+    }
+
+    render(): React.ReactNode {
+        if (!this.state.isReady) {
+            return <AppLoading />;
+        }
+
+        return (
+            <Container>
+                <Text>Open up App.tsx to start working on your app, juju!</Text>
+            </Container>
+        );
+    }
 }
-
-const white = '#fff';
-const styles = StyleSheet.create({
-    container: {
-        alignItems: 'center',
-        backgroundColor: white,
-        flex: 1,
-        justifyContent: 'center',
-    },
-});
