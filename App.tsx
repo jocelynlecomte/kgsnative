@@ -1,8 +1,21 @@
 import React, { useState, useEffect } from 'react';
+import { createStore, applyMiddleware } from 'redux';
+import { combineEpics, createEpicMiddleware } from 'redux-observable';
+import { Provider } from 'react-redux';
 import { AppLoading } from 'expo';
-import { Container, Content, Text, Header, Form, Item, Input, Button } from 'native-base';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
+
+import { rootReducer } from './store';
+import { loginEpic } from './store/system/epics';
+import Main from './containers/main/Main';
+
+const rootEpic = combineEpics(loginEpic);
+const epicMiddleware = createEpicMiddleware();
+
+const store = createStore(rootReducer, applyMiddleware(epicMiddleware));
+
+epicMiddleware.run(rootEpic);
 
 const App: React.ReactNode = () => {
     const [ready, setReady] = useState(false);
@@ -22,28 +35,13 @@ const App: React.ReactNode = () => {
 
     if (!ready) {
         return <AppLoading />;
+    } else {
+        return (
+            <Provider store={store}>
+                <Main />
+            </Provider>
+        );
     }
-
-    return (
-        <Container>
-            <Header />
-            <Content>
-                <Text>KGSNative</Text>
-                <Text>Please log in first</Text>
-                <Form>
-                    <Item>
-                        <Input placeholder="Username"></Input>
-                    </Item>
-                    <Item>
-                        <Input placeholder="Password"></Input>
-                    </Item>
-                    <Button full>
-                        <Text>Login</Text>
-                    </Button>
-                </Form>
-            </Content>
-        </Container>
-    );
 };
 
 export default App;
