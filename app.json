@@ -3,7 +3,7 @@
     "name": "KGS Native Client",
     "slug": "kgsnative",
     "privacy": "public",
-    "sdkVersion": "35.0.0",
+    "sdkVersion": "36.0.0",
     "platforms": [
       "ios",
       "android",
