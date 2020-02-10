@@ -4,15 +4,16 @@ import { Container, Content, Text, Header, Left, Right, Button, Icon, Body, Titl
 
 import Login from '../../components/login/Login';
 import { AppState } from '../../store/index';
-import { logout } from '../../store/system/actions';
+import { logoutStart } from '../../store/auth/actions';
 
 const Main: React.FunctionComponent = () => {
-    const loggedIn = useSelector((state: AppState) => state.system.loggedIn);
+    const loggedIn = useSelector((state: AppState) => state.auth.loggedIn);
+    const username = useSelector((state: AppState) => state.auth.username);
 
     const dispatch = useDispatch();
 
     function logoutButtonPressed(): void {
-        dispatch(logout());
+        dispatch(logoutStart(username));
     }
 
     function getRight(): React.ReactNode {
@@ -38,7 +39,9 @@ const Main: React.FunctionComponent = () => {
             <Header>
                 <Left />
                 <Body>
-                    <Title>KGS Native</Title>
+                    <Title>
+                        <Text>KGS Native</Text>
+                    </Title>
                 </Body>
                 <Right>{getRight()}</Right>
             </Header>

@@ -7,10 +7,10 @@ import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 
 import { rootReducer } from './store';
-import { loginEpic } from './store/system/epics';
 import Main from './containers/main/Main';
+import { loginEpic, logoutEpic } from './store/auth/epics';
 
-const rootEpic = combineEpics(loginEpic);
+const rootEpic = combineEpics(loginEpic, logoutEpic);
 const epicMiddleware = createEpicMiddleware();
 
 const store = createStore(rootReducer, applyMiddleware(epicMiddleware));

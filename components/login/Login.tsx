@@ -3,14 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Text, Form, Item, Input, Button } from 'native-base';
 import { AppState } from '../../store/index';
-import { login } from '../../store/system/actions';
+import { loginStart } from '../../store/auth/actions';
 
 const Login: React.FunctionComponent = () => {
-    const loggedIn = useSelector((state: AppState) => state.system.loggedIn);
+    const loggedIn = useSelector((state: AppState) => state.auth.loggedIn);
     const dispatch = useDispatch();
 
     function loginButtonPressed(): void {
-        dispatch(login('jocelyn', 'cobra0'));
+        dispatch(loginStart('jocelyn', 'cobra0'));
     }
 
     function addLogin(): React.ReactNode {

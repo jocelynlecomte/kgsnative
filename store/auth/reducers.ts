@@ -1,12 +1,20 @@
-import { SystemState, SystemAction, LOGIN_SUCCESS, LOGIN_START, LOGOUT } from './types';
+import {
+    SystemState,
+    LoginActionTypes,
+    LOGIN_START,
+    LOGIN_SUCCESS,
+    LOGIN_FAIL,
+    LOGOUT_START,
+    LOGOUT_SUCCESS,
+} from './types';
 
 const initialState: SystemState = {
     loggedIn: false,
     username: '',
-    loading: false
+    loading: false,
 };
 
-export function systemReducer(state = initialState, action: SystemAction): SystemState {
+export function authReducer(state = initialState, action: LoginActionTypes): SystemState {
     switch (action.type) {
         case LOGIN_START: {
             return {
@@ -22,7 +30,21 @@ export function systemReducer(state = initialState, action: SystemAction): Syste
                 loading: false,
             };
         }
-        case LOGOUT: {
+        case LOGIN_FAIL: {
+            return {
+                loggedIn: false,
+                username: null,
+                loading: false,
+            };
+        }
+        case LOGOUT_START: {
+            return {
+                loggedIn: true,
+                username: action.username,
+                loading: true,
+            };
+        }
+        case LOGOUT_SUCCESS: {
             return {
                 loggedIn: false,
                 username: null,
@@ -32,4 +54,4 @@ export function systemReducer(state = initialState, action: SystemAction): Syste
         default:
             return state;
     }
-};
+}
